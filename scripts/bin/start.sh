@@ -13,21 +13,9 @@ fi
 JETTY_HOME=/usr/local/$APP_NAME
 JAR_NAME=$JETTY_HOME/$APP_NAME.jar
 
-IFS="$(echo -e "\n\r")"
-for LINE in `cat /etc/${APP_NAME}.properties`
-do
-  case $LINE in
-    \#*) ;;
-    *)
-      LEFT=`echo $LINE | cut -d"=" -f1`
-      RIGHT=`echo $LINE | cut -d"=" -f2- | sed -e 's/\\\:/:/g' | sed -e 's/\\\=/=/g' | sed -e 's/\\\ / /g' | sed -e 's/\\\!/!/g' | sed -e 's/\\\\\\\/\\\/g'`
-      ULEFT=`echo $LEFT | awk '{print toupper($0)}' | sed -e 's/\./_/g'`
-      export $ULEFT=$RIGHT
-  esac
-done
-
 IFS="$(echo -e " ")"
 
+SERVICE_NAME=$APP_NAME
 SERVICE_PORT=${SERVICE_PORT:-"8080"}
 HEALTHCHECK_PATH=${HEALTHCHECK_PATH:-"/healthcheck"}
 START_TIMEOUT_SECONDS=${START_TIMEOUT_SECONDS:-"60"}
